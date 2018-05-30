@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Кирилл Розонов](https://up.htmlacademy.ru/javascript/14/user/189468).
-* Наставник: `Неизвестно`.
+* Наставник: [Всеволод Артемьев](https://up.htmlacademy.ru/javascript/14/user/459331).
 
 ---
 
