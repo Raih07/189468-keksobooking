@@ -45,11 +45,11 @@ var getPath = function (filePath, fileExtenshion) {
   return filePath + fileNumber + fileExtenshion;
 };
 
-var getTitle = function (titles) {
-  var index = getRandomIndex(0, titles.length - 1);
-  var title = titles[index];
+var getTitle = function (words) {
+  var index = getRandomIndex(0, words.length - 1);
+  var title = words[index];
 
-  titles.splice(index, 1);
+  words.splice(index, 1);
 
   return title;
 };
@@ -62,11 +62,11 @@ var getRandomLengthArray = function (elements) {
 
 var getRandomSortElements = function (elements) {
   var sortedElements = elements.slice();
-  var sortedElements = sortedElements.sort(function () {
+  var newSortedElements = sortedElements.sort(function () {
     return Math.random() > 0.5 ? 1 : -1;
   });
 
-  return sortedElements;
+  return newSortedElements;
 };
 
 var createAdvert = function () {
@@ -148,8 +148,8 @@ var renderAdvert = function (advertData) {
     featuresHtml += '<li class="popup__feature popup__feature--' + advertData.offer.features[i] + '"></li>';
   }
 
-  for (var i = 0; i < advertData.offer.photos.length; i++) {
-    photosHtml += '<img src="' + advertData.offer.photos[i] + '" class="popup__photo" width="45" height="40" alt="Фотография жилья">';
+  for (var j = 0; j < advertData.offer.photos.length; j++) {
+    photosHtml += '<img src="' + advertData.offer.photos[j] + '" class="popup__photo" width="45" height="40" alt="Фотография жилья">';
   }
 
   advert.querySelector('.popup__title').textContent = advertData.offer.title;
@@ -166,9 +166,9 @@ var renderAdvert = function (advertData) {
   return advert;
 };
 
-var showAdvertCard = function (map, advert) {
-  if (map.querySelector('.map__card')) {
-    map.replaceChild(renderAdvert(advert), map.querySelector('.map__card'));
+var showAdvertCard = function (parent, advert) {
+  if (parent.querySelector('.map__card')) {
+    parent.replaceChild(renderAdvert(advert), parent.querySelector('.map__card'));
   }
 
   map.insertBefore(renderAdvert(advert), mapFiltersContainer);
