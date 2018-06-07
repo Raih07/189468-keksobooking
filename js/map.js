@@ -1,8 +1,6 @@
 'use strict';
 
 var ADVERT_COUNT = 8;
-var FILE_PATH = 'img/avatars/user';
-var FILE_EXTENSION = '.png';
 var TITLES = ['Большая уютная квартира', 'Маленькая неуютная квартира', 'Огромный прекрасный дворец', 'Маленький ужасный дворец', 'Красивый гостевой домик', 'Некрасивый негостеприимный домик', 'Уютное бунгало далеко от моря', 'Неуютное бунгало по колено в воде'];
 var LOCATION_X_MIN = 300;
 var LOCATION_X_MAX = 900;
@@ -33,13 +31,6 @@ var getRandomIndex = function (min, max) {
   return Math.floor(Math.random() * (max + 1 - min)) + min;
 };
 
-var getPath = function (filePath, fileExtenshion) {
-  userNumber++;
-  var fileNumber = (userNumber < 10) ? '0' + userNumber : userNumber;
-
-  return filePath + fileNumber + fileExtenshion;
-};
-
 var getTitle = function (words) {
   var index = getRandomIndex(0, words.length - 1);
   var title = words[index];
@@ -62,9 +53,7 @@ var getRandomSortElements = function (elements) {
 };
 
 var createAdvert = function (countAdvert) {
-  //var userAvatar = getPath(FILE_PATH, FILE_EXTENSION);
   var userAvatar = 'img/avatars/user0' + countAdvert + '.png';
-  console.log(countAdvert);
   var advertTitle = getTitle(titles);
   var locationX = getRandomIndex(LOCATION_X_MIN, LOCATION_X_MAX);
   var locationY = getRandomIndex(LOCATION_Y_MIN, LOCATION_Y_MAX);
