@@ -61,8 +61,10 @@ var getRandomSortElements = function (elements) {
   });
 };
 
-var createAdvert = function () {
-  var userAvatar = getPath(FILE_PATH, FILE_EXTENSION);
+var createAdvert = function (countAdvert) {
+  //var userAvatar = getPath(FILE_PATH, FILE_EXTENSION);
+  var userAvatar = 'img/avatars/user0' + countAdvert + '.png';
+  console.log(countAdvert);
   var advertTitle = getTitle(titles);
   var locationX = getRandomIndex(LOCATION_X_MIN, LOCATION_X_MAX);
   var locationY = getRandomIndex(LOCATION_Y_MIN, LOCATION_Y_MAX);
@@ -106,7 +108,7 @@ var createArrayAdverts = function (count) {
   var adverts = [];
 
   for (var i = 0; i < count; i++) {
-    adverts.push(createAdvert());
+    adverts.push(createAdvert(i + 1));
   }
 
   return adverts;
