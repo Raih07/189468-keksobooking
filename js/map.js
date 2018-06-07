@@ -25,7 +25,6 @@ var HOMES_MAP = {
 };
 
 var titles = TITLES.slice();
-var userNumber = 0;
 
 var getRandomIndex = function (min, max) {
   return Math.floor(Math.random() * (max + 1 - min)) + min;
