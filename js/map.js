@@ -19,7 +19,7 @@ var TIMES = ['12:00', '13:00', '14:00'];
 var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 
-var homeTypes = {
+var HOMES_MAP = {
   'flat': 'Квартира',
   'bungalo': 'Бунгало',
   'house': 'Дом',
@@ -28,11 +28,6 @@ var homeTypes = {
 
 var titles = TITLES.slice();
 var userNumber = 0;
-
-var getRandomElement = function (elements) {
-  var index = Math.floor(Math.random() * elements.length);
-  return elements[index];
-};
 
 var getRandomIndex = function (min, max) {
   return Math.floor(Math.random() * (max + 1 - min)) + min;
@@ -61,12 +56,9 @@ var getRandomLengthArray = function (elements) {
 };
 
 var getRandomSortElements = function (elements) {
-  var sortedElements = elements.slice();
-  var newSortedElements = sortedElements.sort(function () {
+  return elements.slice().sort(function () {
     return Math.random() > 0.5 ? 1 : -1;
   });
-
-  return newSortedElements;
 };
 
 var createAdvert = function () {
@@ -76,35 +68,35 @@ var createAdvert = function () {
   var locationY = getRandomIndex(LOCATION_Y_MIN, LOCATION_Y_MAX);
   var advertAdress = locationX + ', ' + locationY;
   var advertPrice = getRandomIndex(PRICE_MIN, PRICE_MAX);
-  var advertType = getRandomElement(HOME_TYPES);
+  var advertType = HOME_TYPES[getRandomIndex(0, HOME_TYPES.length - 1)];
   var roomCount = getRandomIndex(ROOM_MIN, ROOM_MAX);
   var guestCount = getRandomIndex(GUEST_MIN, GUEST_MAX);
-  var checkinTime = getRandomElement(TIMES);
-  var checkoutTime = getRandomElement(TIMES);
+  var checkinTime = TIMES[getRandomIndex(0, TIMES.length - 1)];
+  var checkoutTime = TIMES[getRandomIndex(0, TIMES.length - 1)];
   var advertFeatures = getRandomLengthArray(FEATURES);
   var sortedPhotos = getRandomSortElements(PHOTOS);
 
   return {
-    'author': {
-      'avatar': userAvatar
+    author: {
+      avatar: userAvatar
     },
 
-    'offer': {
-      'title': advertTitle,
-      'address': advertAdress,
-      'price': advertPrice,
-      'type': advertType,
-      'rooms': roomCount,
-      'guests': guestCount,
-      'checkin': checkinTime,
-      'checkout': checkoutTime,
-      'features': advertFeatures,
-      'description': '',
-      'photos': sortedPhotos
+    offer: {
+      title: advertTitle,
+      address: advertAdress,
+      price: advertPrice,
+      type: advertType,
+      rooms: roomCount,
+      guests: guestCount,
+      checkin: checkinTime,
+      checkout: checkoutTime,
+      features: advertFeatures,
+      description: '',
+      photos: sortedPhotos
     },
-    'location': {
-      'x': locationX,
-      'y': locationY
+    location: {
+      x: locationX,
+      y: locationY
     }
   };
 
@@ -155,7 +147,7 @@ var renderAdvert = function (advertData) {
   advert.querySelector('.popup__title').textContent = advertData.offer.title;
   advert.querySelector('.popup__text--address').textContent = advertData.offer.address;
   advert.querySelector('.popup__text--price').innerHTML = advertData.offer.price + '&#8381;/ночь';
-  advert.querySelector('.popup__type').textContent = homeTypes[advertData.offer.type];
+  advert.querySelector('.popup__type').textContent = HOMES_MAP[advertData.offer.type];
   advert.querySelector('.popup__text--capacity').textContent = advertData.offer.rooms + ' комнаты для ' + advertData.offer.guests + ' гостей';
   advert.querySelector('.popup__text--time').textContent = 'Заезд после ' + advertData.offer.checkin + ', выезд до ' + advertData.offer.checkout;
   advert.querySelector('.popup__features').innerHTML = featuresHtml;
