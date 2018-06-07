@@ -29,13 +29,6 @@ var homeTypes = {
 var titles = TITLES.slice();
 var userNumber = 0;
 
-//var userDialog = document.querySelector('.setup');
-//userDialog.classList.remove('hidden');
-
-//var similarList = userDialog.querySelector('.setup-similar-list');
-
-//var similarWizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
-
 var getRandomElement = function (elements) {
   var index = Math.floor(Math.random() * elements.length);
   return elements[index];
@@ -173,7 +166,11 @@ var renderAdvert = function (advertData) {
   return advert;
 };
 
-var showAdvertCard = function (advert) {
+var showAdvertCard = function (map, advert) {
+  if (map.querySelector('.map__card')) {
+    map.replaceChild(renderAdvert(advert), map.querySelector('.map__card'));
+  }
+
   map.insertBefore(renderAdvert(advert), mapFiltersContainer);
 };
 
@@ -185,6 +182,4 @@ for (var i = 0; i < adverts.length; i++) {
 }
 mapPins.appendChild(fragment);
 
-showAdvertCard(adverts[0]);
-
-//console.log(createArrayAdverts(8));
+showAdvertCard(map, adverts[0]);
