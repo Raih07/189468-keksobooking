@@ -117,7 +117,7 @@ var adFormFieldsets = adForm.querySelectorAll('fieldset');
 var formAdressInput = adForm.querySelector('#address');
 
 
-var getAddress = function () {
+var setAddress = function () {
   var left = mainPin.offsetLeft - Math.round(mainPin.offsetWidth / 2);
   var top = mainPin.offsetTop - (mainPin.offsetHeight + SPEARHEAD_HEIGHT);
 
@@ -135,8 +135,8 @@ var toggleMapFormDisable = function(isDisabled) {
 
 var onMainPinMouseUp = function () {
   toggleMapFormDisable(false);
-  renderAllPin(adverts);
-  getAddress();
+  renderAllPins(adverts);
+  setAddress();
   mainPin.removeEventListener('mouseup', onMainPinMouseUp);
 };
 
@@ -163,7 +163,7 @@ var renderPin = function (pinData, pinNumberData) {
   return pin;
 };
 
-var renderAllPin = function (elements) {
+var renderAllPins = function (elements) {
   var fragment = document.createDocumentFragment();
   for (var i = 0; i < elements.length; i++) {
     fragment.appendChild(renderPin(elements[i], i));
@@ -173,29 +173,31 @@ var renderAllPin = function (elements) {
 
 var onPopupEscPress = function (evt) {
   if (evt.keyCode === ESC_KEYCODE) {
-    closePopup();
+    closeAdvert();
   }
 };
 
-var closePopup = function () {
+var onPopupCloseEnterPress = function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    closeAdvert();
+  }
+};
+
+var closeAdvert = function () {
   var popup = map.querySelector('.map__card');
   var popupClose = popup.querySelector('.popup__close');
   map.removeChild(popup);
   document.removeEventListener('keydown', onPopupEscPress);
-  popup.removeEventListener('click', closePopup);
-  popup.removeEventListener('keydown', closePopup);
+  popup.removeEventListener('click', closeAdvert);
+  popup.removeEventListener('keydown', closeAdvert);
 };
 
 var renderAdvert = function (advertData) {
   var advert = mapCardTemplate.cloneNode(true);
 
   var popupClose = advert.querySelector('.popup__close');
-  popupClose.addEventListener('click', closePopup);
-  popupClose.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === ENTER_KEYCODE) {
-      closePopup();
-    }
-  });
+  popupClose.addEventListener('click', closeAdvert);
+  popupClose.addEventListener('keydown', onPopupCloseEnterPress);
   document.addEventListener('keydown', onPopupEscPress);
 
   var featuresHtml = '';
@@ -226,7 +228,7 @@ var renderAdvert = function (advertData) {
 var showAdvertCard = function (parent, advert) {
   var mapCard = parent.querySelector('.map__card');
   if (mapCard) {
-    closePopup();
+    closeAdvert();
   }
 
   parent.insertBefore(renderAdvert(advert), mapFiltersContainer);
