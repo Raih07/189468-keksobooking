@@ -118,8 +118,8 @@ var formAdressInput = adForm.querySelector('#address');
 
 
 var setAddress = function () {
-  var left = mainPin.offsetLeft - Math.round(mainPin.offsetWidth / 2);
-  var top = mainPin.offsetTop - (mainPin.offsetHeight + SPEARHEAD_HEIGHT);
+  var left = mainPin.offsetLeft + Math.round(mainPin.offsetWidth / 2);
+  var top = mainPin.offsetTop + mainPin.offsetHeight + SPEARHEAD_HEIGHT;
 
   formAdressInput.value = left + ', ' + top;
 };
