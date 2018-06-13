@@ -124,7 +124,7 @@ var setAddress = function () {
   formAdressInput.value = left + ', ' + top;
 };
 
-var toggleMapFormDisable = function(isDisabled) {
+var toggleMapFormDisable = function (isDisabled) {
   map.classList.toggle('map--faded', isDisabled);
   adForm.classList.toggle('ad-form--disabled', isDisabled);
 
@@ -188,8 +188,8 @@ var closeAdvert = function () {
   var popupClose = popup.querySelector('.popup__close');
   map.removeChild(popup);
   document.removeEventListener('keydown', onPopupEscPress);
-  popup.removeEventListener('click', closeAdvert);
-  popup.removeEventListener('keydown', closeAdvert);
+  popupClose.removeEventListener('click', closeAdvert);
+  popupClose.removeEventListener('keydown', closeAdvert);
 };
 
 var renderAdvert = function (advertData) {
