@@ -189,7 +189,7 @@ var closeAdvert = function () {
   map.removeChild(popup);
   document.removeEventListener('keydown', onPopupEscPress);
   popupClose.removeEventListener('click', closeAdvert);
-  popupClose.removeEventListener('keydown', closeAdvert);
+  popupClose.removeEventListener('keydown', onPopupCloseEnterPress);
 };
 
 var renderAdvert = function (advertData) {
