@@ -1216,3 +1216,7 @@ fieldset {
       -ms-transform: translateX(-50%);
           transform: translateX(-50%);
 }
+
+.error {
+  box-shadow: 0 0 2px 3px #f70404 !important;
+}
