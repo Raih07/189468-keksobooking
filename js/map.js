@@ -20,6 +20,8 @@ var GUEST_MAX = 10;
 var TIMES = ['12:00', '13:00', '14:00'];
 var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
+var MAX_ROOM_VALUE = 100;
+var NO_GUEST_VALUE = 0;
 
 var HOMES_MAP = {
   flat: {
@@ -264,20 +266,14 @@ var onTittleInputInvalid = function () {
     tittleInput.setCustomValidity('Обязательное поле');
   } else {
     tittleInput.setCustomValidity('');
+    tittleInput.classList.remove('error');
   }
-
-  //tittleInput.addEventListener('input', onTittleInputInput);
 };
 
-/*
-var onTittleInputInput = function () {
-  if (tittleInput.checkValidity()) {
-    tittleInput.classList.remove('error');
-    tittleInput.removeEventListener('input', onTittleInputInput);
-  }
-};*/
-
 tittleInput.addEventListener('invalid', onTittleInputInvalid);
+tittleInput.addEventListener('change', function (evt) {
+  evt.target.checkValidity();
+});
 
 var onPriceInputInvalid = function () {
   if (priceInput.validity.rangeUnderflow) {
@@ -288,10 +284,14 @@ var onPriceInputInvalid = function () {
     priceInput.setCustomValidity('Обязательное поле');
   } else {
     priceInput.setCustomValidity('');
+    priceInput.classList.remove('error');
   }
 };
 
 priceInput.addEventListener('invalid', onPriceInputInvalid);
+priceInput.addEventListener('change', function (evt) {
+  evt.target.checkValidity();
+});
 
 var setMapTypeToPrice = function () {
   priceInput.min = HOMES_MAP[homeTypeInput.value].minPrice;
@@ -300,41 +300,22 @@ var setMapTypeToPrice = function () {
 
 homeTypeInput.addEventListener('change', setMapTypeToPrice);
 
-/*
-var ROOM_MAP = {
-  '0': {
-    val: 3,
-    rus: 'для 3 гостей'
-  },
-  '1': {
-    val: 2,
-    rus: 'для 2 гостей'
-  },
-  '2': {
-    val: 1,
-    rus: 'для 1 гостя'
-  },
-  '3': {
-    val: 0,
-    rus: 'не для гостей'
-  }
-};*/
 
 var setCapacity = function () {
-  if (roomNumberInput.value < roomNumberInput.length) {
+  if (+roomNumberInput.value < roomNumberInput.length) {
     capacityInput.value = roomNumberInput.value;
   } else {
-    capacityInput.value = '0';
+    capacityInput.value = NO_GUEST_VALUE;
   }
 
-  for (var i = 0; i < roomNumberInput.length; i++) {
-    if (roomNumberInput.value > roomNumberInput.length && capacityInput.options[i].value !== '0' || capacityInput.options[i].value > roomNumberInput.value || capacityInput.options[i].value === '0' && roomNumberInput.value < roomNumberInput.length) {
-      capacityInput.options[i].disabled = true;
-      //capacityInput.removeChild(capacityInput.options[i]);
+  for (var i = 0; i < capacityInput.length; i++) {
+    var option = capacityInput.options[i];
+    var notForGuests = +option.value === NO_GUEST_VALUE;
+
+    if (+roomNumberInput.value === MAX_ROOM_VALUE) {
+      option.disabled = !notForGuests;
     } else {
-      capacityInput.options[i].disabled = false;
-      //var newOption = new Option(ROOM_MAP[i].val, ROOM_MAP[i].rus);
-      //capacityInput.appendChild(newOption);
+      option.disabled = notForGuests || +option.value > +roomNumberInput.value;
     }
   }
 };
@@ -352,22 +333,6 @@ var onTimeOutInputChange = function () {
 };
 
 timeOutInput.addEventListener('change', onTimeOutInputChange);
-
-var onFormInvaliv = function (evt) {
-  var errorInput = evt.target;
-  errorInput.classList.add('error');
-
-  errorInput.addEventListener('input', onErrorInputInput);
-};
-
-var onErrorInputInput = function () {
-  if (this.checkValidity()) {
-    this.classList.remove('error');
-    this.removeEventListener('input', onErrorInputInput);
-  }
-};
-
-adForm.addEventListener('invalid', onFormInvaliv, true);
 
 var onResetButtonClick = function () {
   adForm.reset();
@@ -388,8 +353,10 @@ resetButton.addEventListener('click', onResetButtonClick);
 
 var adverts = createArrayAdverts(ADVERT_COUNT);
 toggleMapFormDisable(true);
+
 setCapacity();
 setMapTypeToPrice();
+
 var leftCoords = mainPin.offsetLeft + Math.round(mainPin.offsetWidth / 2);
 var topCoords = mainPin.offsetTop + Math.round(mainPin.offsetHeight / 2);
 addressInput.value = leftCoords + ', ' + topCoords;
