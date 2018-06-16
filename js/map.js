@@ -9,7 +9,7 @@ var SPEARHEAD_HEIGHT = 22;
 var LOCATION_X_MIN = 300;
 var LOCATION_X_MAX = 900;
 var LOCATION_Y_MIN = 130;
-var LOCATION_Y_MAX = 630;
+var LOCATION_Y_MAX = 620;
 var PRICE_MIN = 1000;
 var PRICE_MAX = 1000000;
 var HOME_TYPES = ['palace', 'flat', 'house', 'bungalo'];
@@ -22,6 +22,9 @@ var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditio
 var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 var MAX_ROOM_VALUE = 100;
 var NO_GUEST_VALUE = 0;
+
+var MAP_PIN_LEFT = '570px';
+var MAP_PIN_TOP = '375px';
 
 var HOMES_MAP = {
   flat: {
@@ -138,11 +141,12 @@ var roomNumberInput = adForm.querySelector('#room_number');
 var capacityInput = adForm.querySelector('#capacity');
 var resetButton = adForm.querySelector('.ad-form__reset');
 
-var setAddress = function () {
-  var left = mainPin.offsetLeft + Math.round(mainPin.offsetWidth / 2);
-  var top = mainPin.offsetTop + mainPin.offsetHeight + SPEARHEAD_HEIGHT;
+var setAddress = function (left, top, isBigPin) {
+  var x = left + Math.round(mainPin.offsetWidth / 2);
 
-  addressInput.value = left + ', ' + top;
+  var y = isBigPin ? top + Math.round(mainPin.offsetHeight / 2) : top + mainPin.offsetHeight + SPEARHEAD_HEIGHT;
+
+  addressInput.value = x + ', ' + y;
 };
 
 var toggleMapFormDisable = function (isDisabled) {
@@ -157,10 +161,72 @@ var toggleMapFormDisable = function (isDisabled) {
 var onMainPinMouseUp = function () {
   toggleMapFormDisable(false);
   renderAllPins(adverts);
-  setAddress();
+  setAddress(mainPin.offsetLeft, mainPin.offsetTop, false);
 };
 
 mainPin.addEventListener('mouseup', onMainPinMouseUp);
+
+mainPin.addEventListener('mousedown', function (evt) {
+  evt.preventDefault();
+
+  mainPin.style.zIndex = 2;
+
+  var startCoords = {
+    x: evt.clientX,
+    y: evt.clientY
+  };
+
+  var onMouseMove = function (moveEvt) {
+    moveEvt.preventDefault();
+
+    var shift = {
+      x: moveEvt.clientX - startCoords.x,
+      y: moveEvt.clientY - startCoords.y
+    };
+
+    startCoords = {
+      x: moveEvt.clientX,
+      y: moveEvt.clientY
+    };
+
+    var newX = mainPin.offsetLeft + shift.x;
+    var newY = mainPin.offsetTop + shift.y;
+
+    if (newX < 0) {
+      newX = 0;
+    }
+
+    if (newX > mainPin.parentElement.offsetWidth - mainPin.offsetWidth) {
+      newX = mainPin.parentElement.offsetWidth - mainPin.offsetWidth;
+    }
+
+    if (newY < LOCATION_Y_MIN) {
+      newY = LOCATION_Y_MIN;
+    }
+
+    if (newY > LOCATION_Y_MAX) {
+      newY = LOCATION_Y_MAX;
+    }
+
+    mainPin.style.left = newX + 'px';
+    mainPin.style.top = newY + 'px';
+
+    var addressX = newX + Math.round(mainPin.offsetWidth / 2);
+    var addressY = newY + mainPin.offsetHeight + SPEARHEAD_HEIGHT;
+
+    addressInput.value = addressX + ', ' + addressY;
+  };
+
+  var onMouseUp = function (upEvt) {
+    upEvt.preventDefault();
+
+    document.removeEventListener('mousemove', onMouseMove);
+    document.removeEventListener('mouseup', onMouseUp);
+  };
+
+  document.addEventListener('mousemove', onMouseMove);
+  document.addEventListener('mouseup', onMouseUp);
+});
 
 var renderPin = function (pinData, pinNumberData) {
   var pin = mapPinTemplate.cloneNode(true);
@@ -344,9 +410,12 @@ var onResetButtonClick = function () {
     mapPins.removeChild(pins[i]);
   }
 
-  var leftCoords = mainPin.offsetLeft + Math.round(mainPin.offsetWidth / 2);
-  var topCoords = mainPin.offsetTop + Math.round(mainPin.offsetHeight / 2);
-  addressInput.value = leftCoords + ', ' + topCoords;
+  //var leftCoords = mainPin.offsetLeft + Math.round(mainPin.offsetWidth / 2);
+  //var topCoords = mainPin.offsetTop + Math.round(mainPin.offsetHeight / 2);
+  //addressInput.value = leftCoords + ', ' + topCoords;
+  mainPin.style.left = MAP_PIN_LEFT;
+  mainPin.style.top = MAP_PIN_TOP;
+  setAddress(mainPin.offsetLeft, mainPin.offsetTop, true);
 };
 
 resetButton.addEventListener('click', onResetButtonClick);
@@ -357,6 +426,8 @@ toggleMapFormDisable(true);
 setCapacity();
 setMapTypeToPrice();
 
+/*
 var leftCoords = mainPin.offsetLeft + Math.round(mainPin.offsetWidth / 2);
 var topCoords = mainPin.offsetTop + Math.round(mainPin.offsetHeight / 2);
-addressInput.value = leftCoords + ', ' + topCoords;
+addressInput.value = leftCoords + ', ' + topCoords;*/
+setAddress(mainPin.offsetLeft, mainPin.offsetTop, true);
