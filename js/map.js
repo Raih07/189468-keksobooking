@@ -410,9 +410,6 @@ var onResetButtonClick = function () {
     mapPins.removeChild(pins[i]);
   }
 
-  //var leftCoords = mainPin.offsetLeft + Math.round(mainPin.offsetWidth / 2);
-  //var topCoords = mainPin.offsetTop + Math.round(mainPin.offsetHeight / 2);
-  //addressInput.value = leftCoords + ', ' + topCoords;
   mainPin.style.left = MAP_PIN_LEFT;
   mainPin.style.top = MAP_PIN_TOP;
   setAddress(mainPin.offsetLeft, mainPin.offsetTop, true);
@@ -426,8 +423,4 @@ toggleMapFormDisable(true);
 setCapacity();
 setMapTypeToPrice();
 
-/*
-var leftCoords = mainPin.offsetLeft + Math.round(mainPin.offsetWidth / 2);
-var topCoords = mainPin.offsetTop + Math.round(mainPin.offsetHeight / 2);
-addressInput.value = leftCoords + ', ' + topCoords;*/
 setAddress(mainPin.offsetLeft, mainPin.offsetTop, true);
