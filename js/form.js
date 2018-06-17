@@ -5,8 +5,12 @@
   var NO_GUEST_VALUE = 0;
   var MAP_PIN_LEFT = '570px';
   var MAP_PIN_TOP = '375px';
+  var SPEARHEAD_HEIGHT = 22;
 
+  var map = document.querySelector('.map');
+  var mainPin = map.querySelector('.map__pin--main');
   var adForm = document.querySelector('.ad-form');
+  var adFormFieldsets = adForm.querySelectorAll('fieldset');
   var tittleInput = adForm.querySelector('#title');
   var homeTypeInput = adForm.querySelector('#type');
   var priceInput = adForm.querySelector('#price');
@@ -14,6 +18,7 @@
   var timeOutInput = adForm.querySelector('#timeout');
   var roomNumberInput = adForm.querySelector('#room_number');
   var capacityInput = adForm.querySelector('#capacity');
+  var addressInput = adForm.querySelector('#address');
   var resetButton = adForm.querySelector('.ad-form__reset');
 
   var onTittleInputInvalid = function () {
@@ -102,12 +107,10 @@
 
   var onResetButtonClick = function () {
     adForm.reset();
-    window.map.toggleMapFormDisable(true);
+    toggleMapFormDisable(true);
     window.advertCard.closeAdvert();
 
-    var map = document.querySelector('.map');
     var mapPins = map.querySelector('.map__pins');
-    var mainPin = map.querySelector('.map__pin--main');
     var pins = mapPins.querySelectorAll('.map__pin:not(.map__pin--main)');
 
     for (var i = 0; i < pins.length; i++) {
@@ -116,11 +119,32 @@
 
     mainPin.style.left = MAP_PIN_LEFT;
     mainPin.style.top = MAP_PIN_TOP;
-    window.map.setAddress(mainPin.offsetLeft, mainPin.offsetTop, true);
+    setAddress(mainPin.offsetLeft, mainPin.offsetTop, true);
   };
 
   resetButton.addEventListener('click', onResetButtonClick);
 
+  var toggleMapFormDisable = function (isDisabled) {
+    map.classList.toggle('map--faded', isDisabled);
+    adForm.classList.toggle('ad-form--disabled', isDisabled);
+
+    for (var i = 0; i < adFormFieldsets.length; i++) {
+      adFormFieldsets[i].disabled = isDisabled;
+    }
+  };
+
+  var setAddress = function (left, top, isBigPin) {
+    var x = left + Math.round(mainPin.offsetWidth / 2);
+    var y = isBigPin ? top + Math.round(mainPin.offsetHeight / 2) : top + mainPin.offsetHeight + SPEARHEAD_HEIGHT;
+
+    addressInput.value = x + ', ' + y;
+  };
+
   setCapacity();
   setMapTypeToPrice();
+
+  window.form = {
+    setAddress: setAddress,
+    toggleMapFormDisable: toggleMapFormDisable
+  };
 })();
