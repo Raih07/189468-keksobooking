@@ -16,12 +16,6 @@
     }
   };
 
-  /*
-  var getRandomElement = function (elements) {
-    var index = Math.floor(Math.random() * elements.length);
-    return elements[index];
-  };*/
-
   var getRandomIndex = function (min, max) {
     return Math.floor(Math.random() * (max + 1 - min)) + min;
   };
