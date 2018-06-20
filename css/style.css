@@ -1220,3 +1220,22 @@ fieldset {
 .error {
   box-shadow: 0 0 2px 3px #f70404 !important;
 }
+
+.error-message {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  box-sizing: border-box;
+  width: 500px;
+  padding: 110px 40px;
+  border: 10px solid #ff6d51;
+  border-radius: 8px;
+  font-size: 30px;
+  line-height: 40px;
+  font-weight: 700;
+  text-align: center;
+  color: #000;
+  background-color: rgb(255, 255, 255);
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+}

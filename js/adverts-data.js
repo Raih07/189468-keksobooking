@@ -2,6 +2,26 @@
 
 (function () {
   var ADVERT_COUNT = 8;
+
+  var HOMES_MAP = {
+    flat: {
+      minPrice: 1000,
+      rus: 'Квартира'
+    },
+    bungalo: {
+      minPrice: 0,
+      rus: 'Бунгало'
+    },
+    house: {
+      minPrice: 5000,
+      rus: 'Дом'
+    },
+    palace: {
+      minPrice: 10000,
+      rus: 'Дворец'
+    }
+  };
+/*
   var TITLES = ['Большая уютная квартира', 'Маленькая неуютная квартира', 'Огромный прекрасный дворец', 'Маленький ужасный дворец', 'Красивый гостевой домик', 'Некрасивый негостеприимный домик', 'Уютное бунгало далеко от моря', 'Неуютное бунгало по колено в воде'];
   var LOCATION_X_MIN = 300;
   var LOCATION_X_MAX = 900;
@@ -99,9 +119,23 @@
   };
 
   var adverts = createArrayAdverts(ADVERT_COUNT);
+*/
+
+  /*
+  var adverts;
+
+  var getAdvertsData = function (data) {
+    console.log(data);
+    adverts = data;
+  };
+
+  window.backend.downloadData(getAdvertsData, window.showError);
+
+  console.log(adverts);*/
 
   window.advertsData = {
-    adverts: adverts,
-    homesMap: HOMES_MAP
+    //adverts: adverts,
+    homesMap: HOMES_MAP,
+    advertCount: ADVERT_COUNT
   };
 })();

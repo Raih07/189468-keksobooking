@@ -124,6 +124,14 @@
 
   resetButton.addEventListener('click', onResetButtonClick);
 
+  adForm.addEventListener('submit', function (evt) {
+    window.backend.uploadData(new FormData(adForm), function () {
+      adForm.reset();
+      setAddress(mainPin.offsetLeft, mainPin.offsetTop, false);
+    }, window.showError);
+    evt.preventDefault();
+  });
+
   var toggleMapFormDisable = function (isDisabled) {
     map.classList.toggle('map--faded', isDisabled);
     adForm.classList.toggle('ad-form--disabled', isDisabled);

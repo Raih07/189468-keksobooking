@@ -11,12 +11,14 @@
     var pin = mapPinTemplate.cloneNode(true);
 
     pin.addEventListener('click', function () {
-      window.advertCard.showAdvertCard(map, window.advertsData.adverts[pinNumberData]);
+      //window.advertCard.showAdvertCard(map, window.advertsData.adverts[pinNumberData]);
+      window.advertCard.showAdvertCard(map, pinData);
     });
 
     pin.addEventListener('keydown', function (evt) {
       if (evt.keyCode === ENTER_KEYCODE) {
-        window.advertCard.showAdvertCard(map, window.advertsData.adverts[pinNumberData]);
+        //window.advertCard.showAdvertCard(map, window.advertsData.adverts[pinNumberData]);
+        window.advertCard.showAdvertCard(map, pinData);
       }
     });
 
