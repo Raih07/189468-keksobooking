@@ -58,8 +58,8 @@
   });
 
   var setMapTypeToPrice = function () {
-    priceInput.min = window.advertsData.homesMap[homeTypeInput.value].minPrice;
-    priceInput.placeholder = window.advertsData.homesMap[homeTypeInput.value].minPrice;
+    priceInput.min = window.advertCard.homesMap[homeTypeInput.value].minPrice;
+    priceInput.placeholder = window.advertCard.homesMap[homeTypeInput.value].minPrice;
   };
 
   homeTypeInput.addEventListener('change', setMapTypeToPrice);
@@ -129,6 +129,7 @@
       adForm.reset();
       setAddress(mainPin.offsetLeft, mainPin.offsetTop, false);
     }, window.showError);
+
     evt.preventDefault();
   });
 
