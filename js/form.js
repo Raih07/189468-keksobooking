@@ -107,6 +107,7 @@
 
   var onResetButtonClick = function () {
     adForm.reset();
+    setCapacity();
     toggleMapFormDisable(true);
     window.advertCard.closeAdvert();
 
@@ -127,6 +128,8 @@
   adForm.addEventListener('submit', function (evt) {
     window.backend.uploadData(new FormData(adForm), function () {
       adForm.reset();
+      setCapacity();
+      setMapTypeToPrice();
       setAddress(mainPin.offsetLeft, mainPin.offsetTop, false);
     }, window.showError);
 
