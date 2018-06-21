@@ -58,8 +58,8 @@
   });
 
   var setMapTypeToPrice = function () {
-    priceInput.min = window.advertsData.homesMap[homeTypeInput.value].minPrice;
-    priceInput.placeholder = window.advertsData.homesMap[homeTypeInput.value].minPrice;
+    priceInput.min = window.advertCard.homesMap[homeTypeInput.value].minPrice;
+    priceInput.placeholder = window.advertCard.homesMap[homeTypeInput.value].minPrice;
   };
 
   homeTypeInput.addEventListener('change', setMapTypeToPrice);
@@ -107,6 +107,7 @@
 
   var onResetButtonClick = function () {
     adForm.reset();
+    setCapacity();
     toggleMapFormDisable(true);
     window.advertCard.closeAdvert();
 
@@ -123,6 +124,17 @@
   };
 
   resetButton.addEventListener('click', onResetButtonClick);
+
+  adForm.addEventListener('submit', function (evt) {
+    window.backend.uploadData(new FormData(adForm), function () {
+      adForm.reset();
+      setCapacity();
+      setMapTypeToPrice();
+      setAddress(mainPin.offsetLeft, mainPin.offsetTop, false);
+    }, window.showError);
+
+    evt.preventDefault();
+  });
 
   var toggleMapFormDisable = function (isDisabled) {
     map.classList.toggle('map--faded', isDisabled);
