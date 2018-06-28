@@ -3,6 +3,7 @@
 (function () {
   var ESC_KEYCODE = 27;
   var ENTER_KEYCODE = 13;
+  var DEBOUNCE_INTERVAL = 300;
 
   var isEscEvent = function (evt, action) {
     if (evt.keyCode === ESC_KEYCODE) {
@@ -32,11 +33,21 @@
     });
   };
 
+  var lastTimeout;
+
+  var debounce = function (fun) {
+    if (lastTimeout) {
+      window.clearTimeout(lastTimeout);
+    }
+    lastTimeout = window.setTimeout(fun, DEBOUNCE_INTERVAL);
+  };
+
   window.utils = {
     getRandomIndex: getRandomIndex,
     getRandomLengthArray: getRandomLengthArray,
     getRandomSortElements: getRandomSortElements,
     isEscEvent: isEscEvent,
-    isEnterEvent: isEnterEvent
+    isEnterEvent: isEnterEvent,
+    debounce: debounce
   };
 })();

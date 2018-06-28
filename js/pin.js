@@ -2,6 +2,7 @@
 
 (function () {
   var ENTER_KEYCODE = 13;
+  var PIN_COUNT = 5;
 
   var map = document.querySelector('.map');
   var mapPins = map.querySelector('.map__pins');
@@ -29,14 +30,25 @@
   };
 
   var renderAllPins = function (elements) {
+    var elementsCount = elements.length > PIN_COUNT ? PIN_COUNT : elements.length;
+
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < elements.length; i++) {
+    for (var i = 0; i < elementsCount; i++) {
       fragment.appendChild(renderPin(elements[i]));
     }
     mapPins.appendChild(fragment);
   };
 
+  var removePins = function () {
+    var pins = mapPins.querySelectorAll('.map__pin:not(.map__pin--main)');
+
+    for (var i = 0; i < pins.length; i++) {
+      mapPins.removeChild(pins[i]);
+    }
+  };
+
   window.pin = {
-    renderAllPins: renderAllPins
+    renderAllPins: renderAllPins,
+    removePins: removePins
   };
 })();
