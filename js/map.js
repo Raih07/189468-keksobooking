@@ -20,7 +20,6 @@
 
   var updatePins = function () {
     var filteredData = pins;
-    console.log(filteredData);
     window.pin.removePins();
     window.advertCard.closeAdvert();
 
@@ -64,7 +63,6 @@
     filterFeatures();
     filterPrice();
 
-    console.log(filteredData);
     window.pin.renderAllPins(filteredData);
   };
 
