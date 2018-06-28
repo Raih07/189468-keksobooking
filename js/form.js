@@ -111,12 +111,14 @@
     toggleMapFormDisable(true);
     window.advertCard.closeAdvert();
 
+    /*
     var mapPins = map.querySelector('.map__pins');
     var pins = mapPins.querySelectorAll('.map__pin:not(.map__pin--main)');
 
     for (var i = 0; i < pins.length; i++) {
       mapPins.removeChild(pins[i]);
-    }
+    }*/
+    window.pin.removePins();
 
     mainPin.style.left = MAP_PIN_LEFT;
     mainPin.style.top = MAP_PIN_TOP;

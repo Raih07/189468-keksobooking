@@ -6,9 +6,6 @@
 
   var ANY_VALUE = 'any';
 
-  var map = document.querySelector('.map');
-  var mainPin = map.querySelector('.map__pin--main');
-
   var filterField = document.querySelector('.map__filters');
   var houseFilter = filterField.querySelector('#housing-type');
   var priceFilter = filterField.querySelector('#housing-price');
@@ -16,15 +13,12 @@
   var guestsFilter = filterField.querySelector('#housing-guests');
   var featuresFilters = filterField.querySelectorAll('.map__checkbox');
 
-  var pins = [];
-
   var updatePins = function () {
     var filteredData = pins;
-    console.log(filteredData);
     window.pin.removePins();
     window.advertCard.closeAdvert();
 
-    var filterValue = function (inputField, property) {
+    var filterByValue = function (inputField, property) {
       if (inputField.value !== ANY_VALUE) {
         filteredData = filteredData.filter(function (item) {
           return item.offer[property].toString() === inputField.value;
@@ -33,7 +27,7 @@
       return filteredData;
     };
 
-    var filterFeatures = function () {
+    var filterByFeatures = function () {
       for (var i = 0; i < featuresFilters.length; i++) {
         if (featuresFilters[i].checked) {
           filteredData = filteredData.filter(function (item) {
@@ -44,11 +38,11 @@
       return filteredData;
     };
 
-    var filterPrice = function () {
+    var filterByPrice = function () {
       if (priceFilter.value !== ANY_VALUE) {
         filteredData = filteredData.filter(function (item) {
           var priceFilterValues = {
-            'low': item.offer.price <= MIN_PRICE,
+            'low': item.offer.price < MIN_PRICE,
             'middle': item.offer.price >= MIN_PRICE && item.offer.price < MAX_PRICE,
             'high': item.offer.price >= MAX_PRICE
           };
@@ -58,13 +52,11 @@
       return filteredData;
     };
 
-    filterValue(houseFilter, 'type');
-    filterValue(roomsFilter, 'rooms');
-    filterValue(guestsFilter, 'guests');
-    filterFeatures();
-    filterPrice();
-
-    console.log(filteredData);
+    filterByValue(houseFilter, 'type');
+    filterByValue(roomsFilter, 'rooms');
+    filterByValue(guestsFilter, 'guests');
+    filterByFeatures();
+    filterByPrice();
     window.pin.renderAllPins(filteredData);
   };
 
@@ -72,21 +64,4 @@
     window.utils.debounce(updatePins);
   });
 
-  var onMainPinMouseUp = function () {
-    window.form.toggleMapFormDisable(false);
-    //window.backend.downloadData(window.pin.renderAllPins, window.showError);
-    //window.pin.renderAllPins(pins);
-    updatePins();
-    window.form.setAddress(mainPin.offsetLeft, mainPin.offsetTop, false);
-  };
-
-  mainPin.addEventListener('mouseup', onMainPinMouseUp);
-
-  var downloadOffers = function (data) {
-    pins = data.slice();
-  };
-
-  window.backend.downloadData(downloadOffers, window.showError);
-  window.form.toggleMapFormDisable(true);
-  window.form.setAddress(mainPin.offsetLeft, mainPin.offsetTop, true);
 })();
