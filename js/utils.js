@@ -42,8 +42,6 @@
     lastTimeout = window.setTimeout(fun, DEBOUNCE_INTERVAL);
   };
 
-  window.debounce = debounce;
-
   window.utils = {
     getRandomIndex: getRandomIndex,
     getRandomLengthArray: getRandomLengthArray,

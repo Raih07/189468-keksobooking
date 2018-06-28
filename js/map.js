@@ -18,44 +18,46 @@
 
   var pins = [];
 
+  var filteredData;
+
+  var filterValue = function (inputField, property) {
+    if (inputField.value !== ANY_VALUE) {
+      filteredData = filteredData.filter(function (item) {
+        return item.offer[property].toString() === inputField.value;
+      });
+    }
+    return filteredData;
+  };
+
+  var filterFeatures = function () {
+    for (var i = 0; i < featuresFilters.length; i++) {
+      if (featuresFilters[i].checked) {
+        filteredData = filteredData.filter(function (item) {
+          return item.offer.features.includes(featuresFilters[i].value);
+        });
+      }
+    }
+    return filteredData;
+  };
+
+  var filterPrice = function () {
+    if (priceFilter.value !== ANY_VALUE) {
+      filteredData = filteredData.filter(function (item) {
+        var priceFilterValues = {
+          'low': item.offer.price < MIN_PRICE,
+          'middle': item.offer.price >= MIN_PRICE && item.offer.price < MAX_PRICE,
+          'high': item.offer.price >= MAX_PRICE
+        };
+        return priceFilterValues[priceFilter.value];
+      });
+    }
+    return filteredData;
+  };
+
   var updatePins = function () {
-    var filteredData = pins;
+    filteredData = pins;
     window.pin.removePins();
     window.advertCard.closeAdvert();
-
-    var filterValue = function (inputField, property) {
-      if (inputField.value !== ANY_VALUE) {
-        filteredData = filteredData.filter(function (item) {
-          return item.offer[property].toString() === inputField.value;
-        });
-      }
-      return filteredData;
-    };
-
-    var filterFeatures = function () {
-      for (var i = 0; i < featuresFilters.length; i++) {
-        if (featuresFilters[i].checked) {
-          filteredData = filteredData.filter(function (item) {
-            return item.offer.features.includes(featuresFilters[i].value);
-          });
-        }
-      }
-      return filteredData;
-    };
-
-    var filterPrice = function () {
-      if (priceFilter.value !== ANY_VALUE) {
-        filteredData = filteredData.filter(function (item) {
-          var priceFilterValues = {
-            'low': item.offer.price <= MIN_PRICE,
-            'middle': item.offer.price >= MIN_PRICE && item.offer.price < MAX_PRICE,
-            'high': item.offer.price >= MAX_PRICE
-          };
-          return priceFilterValues[priceFilter.value];
-        });
-      }
-      return filteredData;
-    };
 
     filterValue(houseFilter, 'type');
     filterValue(roomsFilter, 'rooms');
@@ -72,8 +74,6 @@
 
   var onMainPinMouseUp = function () {
     window.form.toggleMapFormDisable(false);
-    //window.backend.downloadData(window.pin.renderAllPins, window.showError);
-    //window.pin.renderAllPins(pins);
     updatePins();
     window.form.setAddress(mainPin.offsetLeft, mainPin.offsetTop, false);
   };
