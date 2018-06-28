@@ -36,7 +36,7 @@
       for (var i = 0; i < featuresFilters.length; i++) {
         if (featuresFilters[i].checked) {
           filteredData = filteredData.filter(function (item) {
-            return item.offer.features.indexOf(featuresFilters[i].value) >= 0;
+            return item.offer.features.includes(featuresFilters[i].value);
           });
         }
       }
