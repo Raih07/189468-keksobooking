@@ -107,6 +107,8 @@
 
   var onResetButtonClick = function () {
     adForm.reset();
+    window.filesUpload.setAvatarDefault();
+    window.filesUpload.setPhotosDefault();
     setCapacity();
     toggleMapFormDisable(true);
     window.advertCard.closeAdvert();
@@ -122,6 +124,8 @@
   adForm.addEventListener('submit', function (evt) {
     window.backend.uploadData(new FormData(adForm), function () {
       adForm.reset();
+      window.filesUpload.setAvatarDefault();
+      window.filesUpload.setPhotosDefault();
       setCapacity();
       setMapTypeToPrice();
       setAddress(mainPin.offsetLeft, mainPin.offsetTop, false);
