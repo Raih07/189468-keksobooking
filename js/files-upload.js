@@ -35,8 +35,6 @@
   var isFirstPhotosUpload = true;
 
   imagesChooser.addEventListener('change', function () {
-    //photoContainer.removeChild(photoContainer.querySelector('.ad-form__photo'));
-    //removePhotos();
 
     if (isFirstPhotosUpload) {
       photoContainer.removeChild(photoContainer.querySelector('.ad-form__photo'));
@@ -54,7 +52,6 @@
       });
 
       if (matches) {
-        //var reader = new FileReader();
         reader[i] = new FileReader();
 
         reader[i].addEventListener('load', function (evt) {
@@ -73,23 +70,17 @@
 
         reader[i].readAsDataURL(file);
       }
-
     }
 
   });
-
-  var removePhotos = function () {
-    var photos = photoContainer.querySelectorAll('.ad-form__photo');
-    for (var i = 0; i < photos.length; i++) {
-      photoContainer.removeChild(photos[i]);
-    }
-  };
 
   var setAvatarDefault = function () {
     avatarPreview.src = DEFAULT_AVATAR;
   };
 
   var setPhotosDefault = function () {
+    isFirstPhotosUpload = true;
+
     var photos = photoContainer.querySelectorAll('.ad-form__photo');
     for (var i = 0; i < photos.length; i++) {
       photoContainer.removeChild(photos[i]);
