@@ -109,6 +109,7 @@
     adForm.reset();
     window.filesUpload.setAvatarDefault();
     window.filesUpload.setPhotosDefault();
+    window.filesUpload.isFirstPhotosUpload = true;
     setCapacity();
     toggleMapFormDisable(true);
     window.advertCard.closeAdvert();
@@ -126,6 +127,7 @@
       adForm.reset();
       window.filesUpload.setAvatarDefault();
       window.filesUpload.setPhotosDefault();
+      window.filesUpload.isFirstPhotosUpload = true;
       setCapacity();
       setMapTypeToPrice();
       setAddress(mainPin.offsetLeft, mainPin.offsetTop, false);

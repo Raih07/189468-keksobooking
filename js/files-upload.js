@@ -14,7 +14,7 @@
     var fileName = file.name.toLowerCase();
 
     var matches = FILE_TYPES.some(function (it) {
-     return fileName.endsWith(it);
+      return fileName.endsWith(it);
     });
 
     if (matches) {
@@ -32,43 +32,58 @@
     }
   });
 
+  var isFirstPhotosUpload = true;
 
   imagesChooser.addEventListener('change', function () {
-    //var fragment = document.createDocumentFragment();
-    photoContainer.removeChild(photoContainer.querySelector('.ad-form__photo'));
+    //photoContainer.removeChild(photoContainer.querySelector('.ad-form__photo'));
+    //removePhotos();
+
+    if (isFirstPhotosUpload) {
+      photoContainer.removeChild(photoContainer.querySelector('.ad-form__photo'));
+      isFirstPhotosUpload = false;
+    }
+
+    var reader = [];
 
     for (var i = 0; i < imagesChooser.files.length; i++) {
       var file = imagesChooser.files[i];
       var fileName = file.name.toLowerCase();
 
       var matches = FILE_TYPES.some(function (it) {
-       return fileName.endsWith(it);
+        return fileName.endsWith(it);
       });
 
       if (matches) {
-        var reader = new FileReader();
+        //var reader = new FileReader();
+        reader[i] = new FileReader();
 
-        reader.addEventListener('load', function () {
-          var image = document.createElement('img');
+        reader[i].addEventListener('load', function (evt) {
           var imagesBox = document.createElement('div');
           imagesBox.classList.add('ad-form__photo');
-          image.src = reader.result;
+
+          var image = document.createElement('img');
+          image.src = evt.target.result;
           imagesBox.appendChild(image);
           photoContainer.appendChild(imagesBox);
         });
 
-        reader.addEventListener('error', function () {
+        reader[i].addEventListener('error', function () {
           window.showError('Ошибка загрузки файла!');
         });
 
-        reader.readAsDataURL(file);
+        reader[i].readAsDataURL(file);
       }
 
     }
-    //photoContainer.appendChild(fragment);
 
   });
 
+  var removePhotos = function () {
+    var photos = photoContainer.querySelectorAll('.ad-form__photo');
+    for (var i = 0; i < photos.length; i++) {
+      photoContainer.removeChild(photos[i]);
+    }
+  };
 
   var setAvatarDefault = function () {
     avatarPreview.src = DEFAULT_AVATAR;
@@ -87,6 +102,7 @@
 
   window.filesUpload = {
     setAvatarDefault: setAvatarDefault,
-    setPhotosDefault: setPhotosDefault
+    setPhotosDefault: setPhotosDefault,
+    isFirstPhotosUpload: isFirstPhotosUpload
   };
 })();
