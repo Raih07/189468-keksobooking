@@ -20,6 +20,7 @@
   var capacityInput = adForm.querySelector('#capacity');
   var addressInput = adForm.querySelector('#address');
   var resetButton = adForm.querySelector('.ad-form__reset');
+  var successPopap = document.querySelector('.success');
 
   var onTittleInputInvalid = function () {
     if (tittleInput.validity.tooShort) {
@@ -105,6 +106,26 @@
 
   adForm.addEventListener('invalid', onFormInvaliv, true);
 
+  var onDocumentEscPress = function (evt) {
+    window.utils.isEscEvent(evt, closeSuccess);
+  };
+
+  var onSuccessPopapClick = function () {
+    closeSuccess();
+  };
+
+  var showSuccess = function () {
+    successPopap.classList.remove('hidden');
+    document.addEventListener('keydown', onDocumentEscPress);
+    document.addEventListener('click', onSuccessPopapClick);
+  };
+
+  var closeSuccess = function () {
+    successPopap.classList.add('hidden');
+    document.removeEventListener('keydown', onDocumentEscPress);
+    document.removeEventListener('click', onSuccessPopapClick);
+  };
+
   var onResetButtonClick = function () {
     adForm.reset();
     window.filesUpload.setAvatarDefault();
@@ -123,6 +144,7 @@
 
   adForm.addEventListener('submit', function (evt) {
     window.backend.uploadData(new FormData(adForm), function () {
+      showSuccess();
       adForm.reset();
       window.filesUpload.setAvatarDefault();
       window.filesUpload.setPhotosDefault();
@@ -138,9 +160,9 @@
     map.classList.toggle('map--faded', isDisabled);
     adForm.classList.toggle('ad-form--disabled', isDisabled);
 
-    for (var i = 0; i < adFormFieldsets.length; i++) {
-      adFormFieldsets[i].disabled = isDisabled;
-    }
+    [].forEach.call(adFormFieldsets, function (item) {
+      item.disabled = isDisabled;
+    });
   };
 
   var setAddress = function (left, top, isBigPin) {

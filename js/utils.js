@@ -17,22 +17,6 @@
     }
   };
 
-  var getRandomIndex = function (min, max) {
-    return Math.floor(Math.random() * (max + 1 - min)) + min;
-  };
-
-  var getRandomLengthArray = function (elements) {
-    var count = getRandomIndex(1, elements.length);
-
-    return elements.slice(0, count);
-  };
-
-  var getRandomSortElements = function (elements) {
-    return elements.slice().sort(function () {
-      return Math.random() > 0.5 ? 1 : -1;
-    });
-  };
-
   var lastTimeout;
 
   var debounce = function (fun) {
@@ -43,9 +27,6 @@
   };
 
   window.utils = {
-    getRandomIndex: getRandomIndex,
-    getRandomLengthArray: getRandomLengthArray,
-    getRandomSortElements: getRandomSortElements,
     isEscEvent: isEscEvent,
     isEnterEvent: isEnterEvent,
     debounce: debounce

@@ -13,8 +13,8 @@
     var file = avatarChooser.files[0];
     var fileName = file.name.toLowerCase();
 
-    var matches = FILE_TYPES.some(function (it) {
-      return fileName.endsWith(it);
+    var matches = FILE_TYPES.some(function (item) {
+      return fileName.endsWith(item);
     });
 
     if (matches) {
@@ -41,20 +41,20 @@
       isFirstPhotosUpload = false;
     }
 
-    var reader = [];
+    var readers = [];
 
     for (var i = 0; i < imagesChooser.files.length; i++) {
       var file = imagesChooser.files[i];
       var fileName = file.name.toLowerCase();
 
-      var matches = FILE_TYPES.some(function (it) {
-        return fileName.endsWith(it);
+      var matches = FILE_TYPES.some(function (item) {
+        return fileName.endsWith(item);
       });
 
       if (matches) {
-        reader[i] = new FileReader();
+        readers[i] = new FileReader();
 
-        reader[i].addEventListener('load', function (evt) {
+        readers[i].addEventListener('load', function (evt) {
           var imagesBox = document.createElement('div');
           imagesBox.classList.add('ad-form__photo');
 
@@ -64,11 +64,11 @@
           photoContainer.appendChild(imagesBox);
         });
 
-        reader[i].addEventListener('error', function () {
+        readers[i].addEventListener('error', function () {
           window.showError('Ошибка загрузки файла!');
         });
 
-        reader[i].readAsDataURL(file);
+        readers[i].readAsDataURL(file);
       }
     }
 
@@ -82,9 +82,9 @@
     isFirstPhotosUpload = true;
 
     var photos = photoContainer.querySelectorAll('.ad-form__photo');
-    for (var i = 0; i < photos.length; i++) {
-      photoContainer.removeChild(photos[i]);
-    }
+    [].forEach.call(photos, function (item) {
+      photoContainer.removeChild(item);
+    });
 
     var imageBox = document.createElement('div');
     imageBox.classList.add('ad-form__photo');
@@ -93,7 +93,6 @@
 
   window.filesUpload = {
     setAvatarDefault: setAvatarDefault,
-    setPhotosDefault: setPhotosDefault,
-    isFirstPhotosUpload: isFirstPhotosUpload
+    setPhotosDefault: setPhotosDefault
   };
 })();
