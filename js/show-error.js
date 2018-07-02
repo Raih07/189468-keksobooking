@@ -1,6 +1,8 @@
 'use strict';
 
 (function () {
+  var TIMEOUT = 2000;
+
   var showError = function (errorMessage) {
     var errorTooltip = document.createElement('div');
     errorTooltip.classList.add('error-message');
@@ -9,7 +11,7 @@
 
     setTimeout(function () {
       document.body.removeChild(errorTooltip);
-    }, 2000);
+    }, TIMEOUT);
   };
 
   window.showError = showError;

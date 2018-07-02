@@ -126,17 +126,21 @@
     document.removeEventListener('click', onSuccessPopapClick);
   };
 
-  var onResetButtonClick = function () {
+  var setDefaultMapForm = function () {
     adForm.reset();
     window.filesUpload.setAvatarDefault();
     window.filesUpload.setPhotosDefault();
     setCapacity();
+    setMapTypeToPrice();
     toggleMapFormDisable(true);
     window.advertCard.closeAdvert();
-    window.pin.removePins();
-
+    window.pin.removePins()
     mainPin.style.left = MAP_PIN_LEFT;
     mainPin.style.top = MAP_PIN_TOP;
+  };
+
+  var onResetButtonClick = function () {
+    setDefaultMapForm();
     setAddress(mainPin.offsetLeft, mainPin.offsetTop, true);
   };
 
@@ -145,11 +149,7 @@
   adForm.addEventListener('submit', function (evt) {
     window.backend.uploadData(new FormData(adForm), function () {
       showSuccess();
-      adForm.reset();
-      window.filesUpload.setAvatarDefault();
-      window.filesUpload.setPhotosDefault();
-      setCapacity();
-      setMapTypeToPrice();
+      setDefaultMapForm();
       setAddress(mainPin.offsetLeft, mainPin.offsetTop, false);
     }, window.showError);
 
