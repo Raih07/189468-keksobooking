@@ -134,7 +134,7 @@
     setMapTypeToPrice();
     toggleMapFormDisable(true);
     window.advertCard.closeAdvert();
-    window.pin.removePins()
+    window.pin.removePins();
     mainPin.style.left = MAP_PIN_LEFT;
     mainPin.style.top = MAP_PIN_TOP;
   };
