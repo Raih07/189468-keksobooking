@@ -20,6 +20,7 @@
   var capacityInput = adForm.querySelector('#capacity');
   var addressInput = adForm.querySelector('#address');
   var resetButton = adForm.querySelector('.ad-form__reset');
+  var successPopup = document.querySelector('.success');
 
   var onTittleInputInvalid = function () {
     if (tittleInput.validity.tooShort) {
@@ -105,17 +106,41 @@
 
   adForm.addEventListener('invalid', onFormInvaliv, true);
 
-  var onResetButtonClick = function () {
+  var onDocumentEscPress = function (evt) {
+    window.utils.isEscEvent(evt, closeSuccess);
+  };
+
+  var onSuccessPopapClick = function () {
+    closeSuccess();
+  };
+
+  var showSuccess = function () {
+    successPopup.classList.remove('hidden');
+    document.addEventListener('keydown', onDocumentEscPress);
+    document.addEventListener('click', onSuccessPopapClick);
+  };
+
+  var closeSuccess = function () {
+    successPopup.classList.add('hidden');
+    document.removeEventListener('keydown', onDocumentEscPress);
+    document.removeEventListener('click', onSuccessPopapClick);
+  };
+
+  var setDefaultMapForm = function () {
     adForm.reset();
     window.filesUpload.setAvatarDefault();
     window.filesUpload.setPhotosDefault();
     setCapacity();
+    setMapTypeToPrice();
     toggleMapFormDisable(true);
     window.advertCard.closeAdvert();
     window.pin.removePins();
-
     mainPin.style.left = MAP_PIN_LEFT;
     mainPin.style.top = MAP_PIN_TOP;
+  };
+
+  var onResetButtonClick = function () {
+    setDefaultMapForm();
     setAddress(mainPin.offsetLeft, mainPin.offsetTop, true);
   };
 
@@ -123,11 +148,8 @@
 
   adForm.addEventListener('submit', function (evt) {
     window.backend.uploadData(new FormData(adForm), function () {
-      adForm.reset();
-      window.filesUpload.setAvatarDefault();
-      window.filesUpload.setPhotosDefault();
-      setCapacity();
-      setMapTypeToPrice();
+      showSuccess();
+      setDefaultMapForm();
       setAddress(mainPin.offsetLeft, mainPin.offsetTop, false);
     }, window.showError);
 
@@ -138,9 +160,9 @@
     map.classList.toggle('map--faded', isDisabled);
     adForm.classList.toggle('ad-form--disabled', isDisabled);
 
-    for (var i = 0; i < adFormFieldsets.length; i++) {
-      adFormFieldsets[i].disabled = isDisabled;
-    }
+    [].forEach.call(adFormFieldsets, function (item) {
+      item.disabled = isDisabled;
+    });
   };
 
   var setAddress = function (left, top, isBigPin) {
