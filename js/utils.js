@@ -5,13 +5,13 @@
   var ENTER_KEYCODE = 13;
   var DEBOUNCE_INTERVAL = 300;
 
-  var isEscEvent = function (evt, action) {
+  var checkEscEvent = function (evt, action) {
     if (evt.keyCode === ESC_KEYCODE) {
       action();
     }
   };
 
-  var isEnterEvent = function (evt, action) {
+  var checkEnterEvent = function (evt, action) {
     if (evt.keyCode === ENTER_KEYCODE) {
       action();
     }
@@ -27,8 +27,8 @@
   };
 
   window.utils = {
-    isEscEvent: isEscEvent,
-    isEnterEvent: isEnterEvent,
+    checkEscEvent: checkEscEvent,
+    checkEnterEvent: checkEnterEvent,
     debounce: debounce
   };
 })();

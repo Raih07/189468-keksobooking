@@ -27,11 +27,11 @@
   var mapFiltersContainer = map.querySelector('.map__filters-container');
 
   var onPopupEscPress = function (evt) {
-    window.utils.isEscEvent(evt, closeAdvert);
+    window.utils.checkEscEvent(evt, closeAdvert);
   };
 
   var onPopupCloseEnterPress = function (evt) {
-    window.utils.isEnterEvent(evt, closeAdvert);
+    window.utils.checkEnterEvent(evt, closeAdvert);
   };
 
   var closeAdvert = function () {

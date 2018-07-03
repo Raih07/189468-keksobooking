@@ -107,7 +107,7 @@
   adForm.addEventListener('invalid', onFormInvaliv, true);
 
   var onDocumentEscPress = function (evt) {
-    window.utils.isEscEvent(evt, closeSuccess);
+    window.utils.checkEscEvent(evt, closeSuccess);
   };
 
   var onSuccessPopapClick = function () {
