@@ -20,7 +20,7 @@
   var capacityInput = adForm.querySelector('#capacity');
   var addressInput = adForm.querySelector('#address');
   var resetButton = adForm.querySelector('.ad-form__reset');
-  var successPopap = document.querySelector('.success');
+  var successPopup = document.querySelector('.success');
 
   var onTittleInputInvalid = function () {
     if (tittleInput.validity.tooShort) {
@@ -115,13 +115,13 @@
   };
 
   var showSuccess = function () {
-    successPopap.classList.remove('hidden');
+    successPopup.classList.remove('hidden');
     document.addEventListener('keydown', onDocumentEscPress);
     document.addEventListener('click', onSuccessPopapClick);
   };
 
   var closeSuccess = function () {
-    successPopap.classList.add('hidden');
+    successPopup.classList.add('hidden');
     document.removeEventListener('keydown', onDocumentEscPress);
     document.removeEventListener('click', onSuccessPopapClick);
   };
