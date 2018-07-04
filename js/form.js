@@ -141,7 +141,9 @@
 
   var onResetButtonClick = function () {
     setDefaultMapForm();
-    setAddress(mainPin.offsetLeft, mainPin.offsetTop, true);
+    setTimeout(function () {
+      setAddress(mainPin.offsetLeft, mainPin.offsetTop, true);
+    }, 0);
   };
 
   resetButton.addEventListener('click', onResetButtonClick);
