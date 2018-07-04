@@ -2,7 +2,7 @@
 
 (function () {
   var LOCATION_Y_MIN = 130;
-  var LOCATION_Y_MAX = 620;
+  var LOCATION_Y_MAX = 630;
   var SPEARHEAD_HEIGHT = 22;
 
   var map = document.querySelector('.map');
