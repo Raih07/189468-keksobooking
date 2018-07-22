@@ -9,6 +9,7 @@
 
   var map = document.querySelector('.map');
   var mainPin = map.querySelector('.map__pin--main');
+  var mapFilters = document.querySelectorAll('.map__filter-item');
   var adForm = document.querySelector('.ad-form');
   var adFormFieldsets = adForm.querySelectorAll('fieldset');
   var tittleInput = adForm.querySelector('#title');
@@ -152,7 +153,7 @@
     window.backend.uploadData(new FormData(adForm), function () {
       showSuccess();
       setDefaultMapForm();
-      setAddress(mainPin.offsetLeft, mainPin.offsetTop, false);
+      setAddress(mainPin.offsetLeft, mainPin.offsetTop, true);
     }, window.showError);
 
     evt.preventDefault();
@@ -163,6 +164,10 @@
     adForm.classList.toggle('ad-form--disabled', isDisabled);
 
     [].forEach.call(adFormFieldsets, function (item) {
+      item.disabled = isDisabled;
+    });
+
+    [].forEach.call(mapFilters, function (item) {
       item.disabled = isDisabled;
     });
   };

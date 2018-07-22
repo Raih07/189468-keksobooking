@@ -391,6 +391,14 @@ fieldset {
           box-shadow: 0 0 2px 2px #ff6547;
 }
 
+.map__filter-item:disabled {
+  cursor: default;
+}
+
+.map__filter-item:disabled label {
+  cursor: default;
+}
+
 .map__feature {
   display: inline-block;
   overflow: hidden;
